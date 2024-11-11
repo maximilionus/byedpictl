@@ -1,0 +1,11 @@
+tunnel:
+  name: byedpi-tun
+  mtu: 8500
+  multi-queue: false
+  ipv4: 172.20.0.1
+  ipv6: 'fc00::1'
+
+socks5:
+  port: 4080
+  address: 127.0.0.1
+  udp: 'udp'
