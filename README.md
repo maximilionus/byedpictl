@@ -27,7 +27,7 @@ restart
   restart the script
 
 status
-  see current status of the proxy server and socks5 tunnel
+  see current status of byedpi and socks5 proxy
 ```
 
 See the list of possible commands with `./bydpictl help`
