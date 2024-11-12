@@ -1,6 +1,6 @@
 <h1>Running byedpi and a socks5 tunnel together</h1>
 
-byedpictl is a convinience script for running [byedpi](https://github.com/hufrea/byedpi) and [hev-socks5-tunnel](https://github.com/heiher/hev-socks5-tunnel) in conjuction for better protection against DPI
+`byedpictl` is a convinience script for running [byedpi](https://github.com/hufrea/byedpi) and [hev-socks5-tunnel](https://github.com/heiher/hev-socks5-tunnel) in conjuction for better protection against DPI
 
 <hr>
 
@@ -29,6 +29,8 @@ restart
 status
   see current status of the proxy server and socks5 tunnel
 ```
+
+Should either the proxy server or the socks5 tunnel crash, run `sudo ./byedpictl tun restart`
 
 See the list of possible commands with `./bydpictl help`
   
