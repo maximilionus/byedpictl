@@ -38,7 +38,7 @@ BYEDPI_ARGS="\
 
 <h3>Debugging</h3>
 
-Logs are available in `/var/log/byedpictl` directory.
+Logs are available here `/var/log/byedpictl`.
 
 <h3>Possible issues</h3>
 
