@@ -1,6 +1,6 @@
 <h1>Running byedpi and socks5 proxy together</h1>
 
-`byedpictl` is a convinience script for running [byedpi](https://github.com/hufrea/byedpi) and [hev-socks5-tunnel](https://github.com/heiher/hev-socks5-tunnel) in conjuction for better protection against DPI
+`byedpictl` is a convinience script for running [byedpi](https://github.com/hufrea/byedpi) and [hev-socks5-tunnel](https://github.com/heiher/hev-socks5-tunnel) in conjuction for better protection against DPI.
 
 <hr>
 
