@@ -16,6 +16,20 @@ byedpictl is a convinience script for running [byedpi](https://github.com/hufrea
 
 Controll the script with `sudo ./byedpictl tun {start|stop|restart|status}`
 
+```
+start
+   enabled full traffic tunneling
+
+stop
+   disable full traffic tunneling
+
+restart
+  restart the script
+
+status
+  see current status of the proxy server and socks5 tunnel
+```
+
 See the list of possible commands with `./bydpictl help`
   
 <hr>
