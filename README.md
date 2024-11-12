@@ -30,8 +30,6 @@ status
   see current status of the proxy server and socks5 tunnel
 ```
 
-Should either the proxy server or the socks5 tunnel crash, run `sudo ./byedpictl tun restart`
-
 See the list of possible commands with `./bydpictl help`
   
 <hr>
