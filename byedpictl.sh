@@ -8,6 +8,7 @@ BYEDPI_ARGS="\
 --auto=torst --disoob=1 --tlsrec 3+s \
 --auto=torst --timeout=3"
 
+BIN_DIR="/usr/local/bin"
 CONF_DIR="/etc/byedpi"
 LOG_DIR="/var/log/byedpi"
 PID_DIR="/var/run/byedpi"
@@ -57,10 +58,10 @@ prepare_dirs() {
 start_tunneling() {
     prepare_dirs
 
-    nohup su - byedpi -s /bin/bash -c "ciadpi $BYEDPI_ARGS" \
+    nohup su - byedpi -s /bin/bash -c "$BIN_DIR/ciadpi $BYEDPI_ARGS" \
 > $LOG_DIR/server.log 2>&1 & echo $! > $PID_DIR/server.pid
 
-    nohup hev-socks5-tunnel $CONF_DIR/hev-socks5-tunnel.yaml \
+    nohup $BIN_DIR/hev-socks5-tunnel $CONF_DIR/hev-socks5-tunnel.yaml \
         > $LOG_DIR/tunnel.log 2>&1 & echo $! > $PID_DIR/tunnel.pid
 
    while true; do
