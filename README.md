@@ -1,43 +1,60 @@
 # byedpictl 
-`byedpictl` is a convinience script for running [byedpi](https://github.com/hufrea/byedpi) and [hev-socks5-tunnel](https://github.com/heiher/hev-socks5-tunnel) in conjuction for better protection against DPI.
+`byedpictl` is a tool for automating the
+[byedpi](https://github.com/hufrea/byedpi) DPI bypass utility on Linux.
 
 ## Installation
-1) Though, it is installed by default on most distributions, make sure `curl` is installed
-2) Download the [latest archive](https://github.com/maximilionus/byedpictl/archive/refs/heads/master.zip) and unpack it
-3) In the unpacked directory run `sudo ./install.sh`
+
+> Ensure that `curl` is installed in your system.
+1. Download the [latest
+   archive](https://github.com/maximilionus/byedpictl/archive/refs/heads/master.zip)
+   and unpack it
+2. In the unpacked directory run `sudo ./install.sh`
+
 
 ## Usage
-Controll the script with `sudo ./byedpictl tun {start|stop|restart|status}`
 
+### Help
+Get all available information about commands with:
+
+```sh
+$ byedpictl help
 ```
-start
-   enabled full traffic tunneling
 
-stop
-   disable full traffic tunneling
+### Tunneling
+Control the background tunneling with `tun <COMMAND>` command.
 
-restart
-  restart the script
+- Start and stop the tunneling with:
+```sh
+# Start
+$ byedpictl tun start
 
-status
-  see current status of byedpi and socks5 proxy
+# Stop
+$ byedpictl tun stop
 ```
-See the list of possible commands with `./bydpictl help`
 
-## Altering bydepi arguments
-To alter DPI bypasss methods we can edit `BYEDPI_ARGS` in `byedpictl` itself
+- Get status of background tunneling with:
+```sh
+$ byedpictl tun status
+```
+
+
+## Desync Options
+To alter DPI desync (bypass) methods we can edit `BYEDPI_ARGS` in `byedpictl`
+itself
+
 ```
 BYEDPI_ARGS="\
 --ip 127.0.0.1 --port 4080 \
---proto=udp --udp-fake=2 \
---proto=http,tls --disoob=1 \
---auto=torst --disoob=1 --tlsrec 3+s \
---auto=torst --timeout=3"
+< DESYNC OPTIONS HERE >"
 ```
 
+
 ## Debugging
-Logs are available here `/var/log/byedpictl`.
+Logs are available in `/var/log/byedpictl`.
+
 
 ## Possible issues
-Encountering `RTNETLINK answers: File exists` message means there already exists a network interface with the name you are tring to create, most likely "byedpi-tun".
-To fix it either restart your machine or remove the existing network interface by hand.
+Encountering `RTNETLINK answers: File exists` message means there already
+exists a network interface with the name you are tring to create, most likely
+"byedpi-tun". To fix it either restart your machine or remove the existing
+network interface by hand.
