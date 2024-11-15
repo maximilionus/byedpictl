@@ -1,6 +1,7 @@
-# byedpictl 
+# byedpictl
 `byedpictl` is a tool for automating the
 [byedpi](https://github.com/hufrea/byedpi) DPI bypass utility on Linux.
+
 
 ## Installation
 
@@ -12,7 +13,6 @@
 
 
 ## Usage
-
 ### Help
 Get all available information about commands with:
 
@@ -54,7 +54,16 @@ Logs are available in `/var/log/byedpictl`.
 
 
 ## Possible issues
-Encountering `RTNETLINK answers: File exists` message means there already
-exists a network interface with the name you are tring to create, most likely
-"byedpi-tun". To fix it either restart your machine or remove the existing
-network interface by hand.
+### Random errors on execution
+`RTNETLINK answers: File exists` or any other similar messages on execution
+shall be ignored. The project is in very early state of development, so STDs
+redirection are not yet handled correctly.
+
+
+### Tunnel after suspend
+Tunneling **will** break after waking your PC from suspend (sleep) state. To
+restore the functionality you should run the command below:
+
+```sh
+$ byedpictl tun restart
+```
