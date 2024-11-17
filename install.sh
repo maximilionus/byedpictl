@@ -4,8 +4,19 @@ set -e
 CONF_DIR="/etc/byedpi"
 BIN_DIR="/usr/local/bin"
 
-GREEN="\033[0;32m"
-NC="\033[0m"
+GREEN="\e[0;32m"
+RED="\e[0;31m"
+NC="\e[0m"
+
+
+if [[ $( uname -m ) != "x86_64" ]]; then
+    printf "${RED}Unsupported architecture detected!${NC}"
+    printf "\n\nOnly x86_64 is supported for now.\n"
+    exit 1
+fi
+
+[[ $( id -u ) != 0 ]] && \
+    printf "${RED}Run installation as root${NC}\n" && exit 1
 
 
 TMP_DIR=$( mktemp -d )
@@ -29,7 +40,7 @@ cd -
 chmod +x "$BIN_DIR/ciadpi"
 
 curl -L -o "$BIN_DIR/hev-socks5-tunnel" \
-    "https://github.com/heiher/hev-socks5-tunnel/releases/download/2.7.4/hev-socks5-tunnel-linux-x86_64"
+    "https://github.com/heiher/hev-socks5-tunnel/releases/download/2.7.5/hev-socks5-tunnel-linux-x86_64"
 chmod +x "$BIN_DIR/hev-socks5-tunnel"
 
 printf "\n${GREEN}Installing...${NC}\n"
