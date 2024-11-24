@@ -30,7 +30,7 @@ printf "\n${GREEN}Preparing...${NC}\n"
 mkdir -vp "$CONF_DIR"
 id -u byedpi &>/dev/null || useradd -r -s /bin/false byedpi
 
-printf "\n${GREEN}Downloading dependencies...${NC}\n"
+printf "\n${GREEN}Downloading and unpacking the dependencies...${NC}\n"
 curl -L -o "$TMP_DIR/ciadpi.tar.gz" \
     "https://github.com/hufrea/byedpi/releases/download/v0.15/byedpi-15-x86_64.tar.gz"
 cd "$TMP_DIR"
