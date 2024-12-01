@@ -3,7 +3,7 @@ set -e
 
 BYEDPI_ARGS="\
 --ip 127.0.0.1 --port 4080 \
---proto=udp --oob=3+s --udp-fake=2 \
+--proto=udp --oob=4+s --udp-fake=2 \
 --proto=http,tls --disoob=1 --split=1 \
 --auto=torst --disorder=4 --split=2 --tlsrec 1+s \
 --auto=torst --timeout=3"
