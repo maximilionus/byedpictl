@@ -31,7 +31,7 @@ cmd_install () {
         printf "${C_RED}Failed to initialize temporary directory.${C_RESET}\n"
         exit 1
     fi
-    trap 'rm -rf -- "$tmp_dir" && echo "Temporary directory $tmp_dir wiped."' EXIT
+    trap 'rm -rf -- "$tmp_dir"' EXIT
 
     printf "${C_BOLD}Setting up${C_RESET}\n"
     target_arch=$( uname -m )
@@ -58,12 +58,14 @@ cmd_install () {
     cp -v "$SRC_DIR/byedpictl.sh" "$BIN_DIR/byedpictl"
 
     printf "\n${C_GREEN}Installation complete${C_RESET}\n"
-    printf "\nAccess by calling:\n    $ byedpictl help\n"
+    printf "  Get more information with: $ byedpictl help\n"
+    printf "  DPI desync parameters can be changed here: %s\n" "$CONF_DIR/desync.conf"
 }
 
 cmd_remove () {
     printf "${C_BOLD}Removal${C_RESET}\n"
     rm -rfv "$CONF_DIR"
+    rm -fv "$BIN_DIR/byedpictl"
     rm -fv "$BIN_DIR/ciadpi"
     rm -fv "$BIN_DIR/hev-socks5-tunnel"
     id -u byedpi &>/dev/null && userdel byedpi
