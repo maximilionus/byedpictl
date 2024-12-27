@@ -1,4 +1,5 @@
-`byedpictl` is an experimental utility for user-friendly DPI desync on Linux
+# byedpictl
+Experimental utility for user-friendly DPI desync on Linux
 
 
 ## Install
@@ -43,11 +44,11 @@ Control the background tunneling.
 
 ## Configuration
 DPI desync (bypass) parameters can be modified by altering the contents of
-`/etc/byedpictl/desync.conf` file.
+`/etc/byedpictl/desync.conf` file
 
 
 ## Debugging
-Logs are available in `/var/log/byedpictl`.
+Logs are available in `/var/log/byedpictl`
 
 
 ## Possible issues
