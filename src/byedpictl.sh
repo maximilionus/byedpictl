@@ -2,9 +2,9 @@
 set -e
 
 BIN_DIR="/usr/local/bin"
-CONF_DIR="/etc/byedpi"
-LOG_DIR="/var/log/byedpi"
-PID_DIR="/var/run/byedpi"
+CONF_DIR="/etc/byedpictl"
+LOG_DIR="/var/log/byedpictl"
+PID_DIR="/var/run/byedpictl"
 
 
 cmd_help () {

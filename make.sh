@@ -2,7 +2,7 @@
 set -e
 
 SRC_DIR="src"
-CONF_DIR="/etc/byedpi"
+CONF_DIR="/etc/byedpictl"
 BIN_DIR="/usr/local/bin"
 
 C_RESET="\e[0m"
