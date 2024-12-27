@@ -1,19 +1,13 @@
 #!/bin/bash
 set -e
 
-BYEDPI_ARGS="\
---ip 127.0.0.1 --port 4080 \
---proto=udp --oob=4+s --udp-fake=2 \
---proto=http,tls --disoob=2 \
---auto=torst --disorder=4 --split=2 --tlsrec 1+s"
-
 BIN_DIR="/usr/local/bin"
 CONF_DIR="/etc/byedpi"
 LOG_DIR="/var/log/byedpi"
 PID_DIR="/var/run/byedpi"
 
 
-cmd_help() {
+cmd_help () {
     cat <<EOF
 $0
 
@@ -26,7 +20,7 @@ COMMANDS:
 EOF
 }
 
-cmd_tun() {
+cmd_tun () {
     case $1 in
         start)
             start_tunneling
@@ -49,17 +43,24 @@ cmd_tun() {
     esac
 }
 
-prepare_dirs() {
+prepare_dirs () {
     mkdir -p "$LOG_DIR"
     mkdir -p "$PID_DIR"
 }
 
+load_conf () {
+    source "$CONF_DIR/server.conf"
+    source "$CONF_DIR/desync.conf"
+}
+
 start_tunneling() {
     prepare_dirs
+    load_conf
 
-    nohup su - byedpi -s /bin/bash -c "$BIN_DIR/ciadpi $BYEDPI_ARGS" \
-> $LOG_DIR/server.log 2>&1 & echo $! > $PID_DIR/server.pid
+    ciadpi_args="--ip $CIADPI_IP --port $CIADPI_PORT ${CIADPI_DESYNC[@]}"
 
+    nohup su - byedpi -s /bin/bash -c "$BIN_DIR/ciadpi $ciadpi_args" \
+        > $LOG_DIR/server.log 2>&1 & echo $! > $PID_DIR/server.pid
     nohup $BIN_DIR/hev-socks5-tunnel $CONF_DIR/hev-socks5-tunnel.yaml \
         > $LOG_DIR/tunnel.log 2>&1 & echo $! > $PID_DIR/tunnel.pid
 
@@ -81,7 +82,7 @@ start_tunneling() {
     ip route add default via 172.20.0.1 dev byedpi-tun metric 1
 }
 
-stop_tunneling() {
+stop_tunneling () {
     user_id=$(id -u byedpi)
     nic_name=$(ip route show to default | awk '$5 != "byedpi-tun" {print $5; exit}')
     gateway_addr=$(ip route show to default | awk '$5 != "byedpi-tun" {print $3; exit}')
@@ -100,7 +101,7 @@ stop_tunneling() {
     rm -rf "$PID_DIR" || true
 }
 
-show_tunneling_status() {
+show_tunneling_status () {
     server_status="offline"
     tun_status="offline"
 
