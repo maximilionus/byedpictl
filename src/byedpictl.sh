@@ -24,22 +24,22 @@ cmd_tun () {
     case $1 in
         start)
             start_tunneling
-            echo "Successfully enabled full traffic tunneling."
+            echo "Successfully enabled full traffic tunneling"
             ;;
         stop)
             stop_tunneling
-            echo "Successfully stopped the tunneling."
+            echo "Successfully stopped the tunneling"
             ;;
         restart)
             stop_tunneling
             start_tunneling
-            echo "Tunnel successfully restarted."
+            echo "Tunnel successfully restarted"
             ;;
         status)
             show_tunneling_status
             ;;
         *)
-            echo "Error: Invalid mode: \"$1\"."
+            echo "Invalid argument!"
     esac
 }
 

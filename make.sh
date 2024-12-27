@@ -17,11 +17,11 @@ $0
 
 COMMANDS:
     install
-        Deploy the project files and dependencies
+        Deploy the project files and dependencies.
     remove
-        Uninstall the project
+        Uninstall the project.
     help
-        Show this message and exit
+        Show this message and exit.
 EOF
 }
 
@@ -62,13 +62,13 @@ cmd_install () {
 }
 
 cmd_remove () {
-    printf "${C_BOLD}Removal${C_RESET}"
+    printf "${C_BOLD}Removal${C_RESET}\n"
     rm -rfv "$CONF_DIR"
     rm -fv "$BIN_DIR/ciadpi"
     rm -fv "$BIN_DIR/hev-socks5-tunnel"
     id -u byedpi &>/dev/null && userdel byedpi
 
-    printf "\n${C_GREEN}Successfully removed${C_RESET}\n"
+    printf "\n${C_GREEN}Successfully uninstalled${C_RESET}\n"
 }
 
 
