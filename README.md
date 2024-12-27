@@ -27,18 +27,18 @@ $ byedpictl help
 Control the background tunneling.
 
 - Start and stop the tunneling with:
-```sh
-# Start
-$ byedpictl tun start
+  ```sh
+  # Start
+  $ byedpictl tun start
 
-# Stop
-$ byedpictl tun stop
-```
+  # Stop
+  $ byedpictl tun stop
+  ```
 
 - Get status of background tunneling with:
-```sh
-$ byedpictl tun status
-```
+  ```sh
+  $ byedpictl tun status
+  ```
 
 
 ## Configuration
@@ -55,7 +55,6 @@ Logs are available in `/var/log/byedpictl`.
 `RTNETLINK answers: File exists` or any other similar messages on execution
 shall be ignored. The project is in a very early state of development, so
 there's a lot of "garbage" output.
-
 
 ### Tunnel after suspend
 Tunneling **will** break after waking your PC from suspend (sleep) state. To
