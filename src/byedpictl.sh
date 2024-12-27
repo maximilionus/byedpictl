@@ -24,7 +24,7 @@ cmd_tun () {
     case $1 in
         start)
             start_tunneling
-            echo "Successfully enabled full traffic tunneling"
+            echo "Successfully started the full traffic tunneling"
             ;;
         stop)
             stop_tunneling
