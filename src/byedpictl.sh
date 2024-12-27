@@ -57,7 +57,7 @@ start_tunneling() {
     prepare_dirs
     load_conf
 
-    ciadpi_args="--ip $CIADPI_IP --port $CIADPI_PORT ${CIADPI_DESYNC[@]}"
+    ciadpi_args="--buf-size=$CIADPI_BUFFER --ip=$CIADPI_IP --port=$CIADPI_PORT ${CIADPI_DESYNC[@]}"
 
     nohup su - byedpi -s /bin/bash -c "$BIN_DIR/ciadpi $ciadpi_args" \
         > $LOG_DIR/server.log 2>&1 & echo $! > $PID_DIR/server.pid
