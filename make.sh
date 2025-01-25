@@ -40,7 +40,7 @@ cmd_install () {
 
     printf "${C_BOLD}Downloading and preparing the dependencies${C_RESET}\n"
     curl -L -o "$tmp_dir/ciadpi.tar.gz" \
-        "https://github.com/hufrea/byedpi/releases/download/v0.16/byedpi-16-$target_arch.tar.gz"
+        "https://github.com/hufrea/byedpi/releases/download/v0.16.1/byedpi-16.1-$target_arch.tar.gz"
     cd "$tmp_dir"
     tar -zxvf "ciadpi.tar.gz"
     find -type f -name "ciadpi-*" -exec mv -vf {} $BIN_DIR/ciadpi \;
@@ -57,9 +57,16 @@ cmd_install () {
     cp -v "$SRC_DIR/desync.conf" "$CONF_DIR"
     cp -v "$SRC_DIR/byedpictl.sh" "$BIN_DIR/byedpictl"
 
-    printf "\n${C_GREEN}Installation complete${C_RESET}\n"
-    printf "  Get more information with: $ byedpictl help\n"
-    printf "  DPI desync parameters can be changed here: %s\n" "$CONF_DIR/desync.conf"
+
+    printf "${C_GREEN}Installation complete${C_RESET}\n"
+    cat <<EOF
+
+- Get basic usage information by executing
+    $ byedpictl help
+
+- DPI desync parameters can be changed here
+    $CONF_DIR/desync.conf
+EOF
 }
 
 cmd_remove () {
