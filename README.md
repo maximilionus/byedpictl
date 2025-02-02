@@ -17,6 +17,11 @@ Experimental utility for user-friendly DPI desync on Linux
    $ sudo ./make.sh remove
    ```
 
+## Update
+1. Be sure to uninstall the project using the same `make.sh` script that was
+   used for initial installation.
+2. Follow the "Install" section above.
+
 ## Usage
 ### General
 Get all the available information about utility commands usage with:
