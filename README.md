@@ -20,7 +20,7 @@ Experimental utility for user-friendly DPI desync on Linux
 ## Update
 1. Be sure to uninstall the project using the same `make.sh` script that was
    used for initial installation.
-2. Follow the "Install" section above.
+2. Follow the "Install" section above with new version.
 
 ## Usage
 ### General
