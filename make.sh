@@ -48,7 +48,7 @@ cmd_install () {
     chmod +x "$BIN_DIR/ciadpi"
 
     curl -L -o "$BIN_DIR/hev-socks5-tunnel" \
-        "https://github.com/heiher/hev-socks5-tunnel/releases/download/2.8.0/hev-socks5-tunnel-linux-$target_arch"
+        "https://github.com/heiher/hev-socks5-tunnel/releases/download/2.9.0/hev-socks5-tunnel-linux-$target_arch"
     chmod +x "$BIN_DIR/hev-socks5-tunnel"
 
     printf "${C_BOLD}Installing the main components${C_RESET}\n"
