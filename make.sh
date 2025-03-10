@@ -35,49 +35,51 @@ cmd_install () {
 
     printf "${C_BOLD}Setting up${C_RESET}\n"
     target_arch=$( uname -m )
-    mkdir -vp "$CONF_DIR"
+    mkdir -p "$CONF_DIR"
     id -u byedpi &>/dev/null || useradd -r -s /bin/false byedpi
 
-    printf "${C_BOLD}Downloading and preparing the dependencies${C_RESET}\n"
-    curl -L -o "$tmp_dir/ciadpi.tar.gz" \
+    printf "${C_BOLD}- Downloading and preparing the dependencies${C_RESET}\n"
+    printf -- "- Server\n"
+    curl -L --progress-bar -o "$tmp_dir/ciadpi.tar.gz" \
         "https://github.com/hufrea/byedpi/releases/download/v0.16.6/byedpi-16.6-$target_arch.tar.gz"
     cd "$tmp_dir"
-    tar -zxvf "ciadpi.tar.gz"
-    find -type f -name "ciadpi-*" -exec mv -vf {} $BIN_DIR/ciadpi \;
-    cd -
+    tar -zxf "ciadpi.tar.gz"
+    find -type f -name "ciadpi-*" -exec mv -f {} $BIN_DIR/ciadpi \;
+    cd "$OLDPWD"
     chmod +x "$BIN_DIR/ciadpi"
 
-    curl -L -o "$BIN_DIR/hev-socks5-tunnel" \
+    printf -- "- Tunnel\n"
+    curl -L --progress-bar -o "$BIN_DIR/hev-socks5-tunnel" \
         "https://github.com/heiher/hev-socks5-tunnel/releases/download/2.9.1/hev-socks5-tunnel-linux-$target_arch"
     chmod +x "$BIN_DIR/hev-socks5-tunnel"
 
-    printf "${C_BOLD}Installing the main components${C_RESET}\n"
-    cp -v "$SRC_DIR/hev-socks5-tunnel.yaml" "$CONF_DIR"
-    cp -v "$SRC_DIR/server.conf" "$CONF_DIR"
-    cp -v "$SRC_DIR/desync.conf" "$CONF_DIR"
-    cp -v "$SRC_DIR/byedpictl.sh" "$BIN_DIR/byedpictl"
+    printf "${C_BOLD}- Installing the main components${C_RESET}\n"
+    cp "$SRC_DIR/hev-socks5-tunnel.yaml" "$CONF_DIR"
+    cp "$SRC_DIR/server.conf" "$CONF_DIR"
+    cp "$SRC_DIR/desync.conf" "$CONF_DIR"
+    cp "$SRC_DIR/byedpictl.sh" "$BIN_DIR/byedpictl"
 
 
     printf "${C_GREEN}Installation complete${C_RESET}\n"
     cat <<EOF
 
-- Get basic usage information by executing
-    $ byedpictl help
+Get basic usage information by executing
+  $ byedpictl help
 
-- DPI desync parameters can be changed here
-    $CONF_DIR/desync.conf
+DPI desync parameters can be changed here
+  $CONF_DIR/desync.conf
 EOF
 }
 
 cmd_remove () {
-    printf "${C_BOLD}Removal${C_RESET}\n"
-    rm -rfv "$CONF_DIR"
-    rm -fv "$BIN_DIR/byedpictl"
-    rm -fv "$BIN_DIR/ciadpi"
-    rm -fv "$BIN_DIR/hev-socks5-tunnel"
+    printf "${C_BOLD}Removal${C_RESET} "
+    rm -rf "$CONF_DIR"
+    rm -f "$BIN_DIR/byedpictl"
+    rm -f "$BIN_DIR/ciadpi"
+    rm -f "$BIN_DIR/hev-socks5-tunnel"
     id -u byedpi &>/dev/null && userdel byedpi
 
-    printf "\n${C_GREEN}Successfully uninstalled${C_RESET}\n"
+    printf "${C_GREEN}Done${C_RESET}\n"
 }
 
 
