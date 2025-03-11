@@ -6,6 +6,8 @@ CONF_DIR="/etc/byedpictl"
 LOG_DIR="/var/log/byedpictl"
 PID_DIR="/var/run/byedpictl"
 
+CLI_LOG="$LOG_DIR/cli.log"
+
 
 cmd_help () {
     cat <<EOF
@@ -91,16 +93,12 @@ stop_tunneling () {
     nic_name=$(ip route show to default | awk '$5 != "byedpi-tun" {print $5; exit}')
     gateway_addr=$(ip route show to default | awk '$5 != "byedpi-tun" {print $3; exit}')
 
-    # Not sure if that's a good idea to let all steps be passable by default
-    # as this may lead to a lot of unexpected behavior. There should be at
-    # least some "is command even available" checks here.
+    ip rule del uidrange $user_id-$user_id lookup 110 pref 28000 2>$CLI_LOG || true
+    ip route del default via "$gateway_addr" dev "$nic_name" metric 50 table 110 2>$CLI_LOG || true
+    ip route del default via 172.20.0.1 dev byedpi-tun metric 1 2>$CLI_LOG || true
 
-    ip rule del uidrange $user_id-$user_id lookup 110 pref 28000 2>/dev/null || true
-    ip route del default via "$gateway_addr" dev "$nic_name" metric 50 table 110 2>/dev/null || true
-    ip route del default via 172.20.0.1 dev byedpi-tun metric 1 2>/dev/null || true
-
-    kill $(cat $PID_DIR/tunnel.pid) 2>/dev/null || true
-    kill $(cat $PID_DIR/server.pid) 2>/dev/null || true
+    kill $(cat $PID_DIR/tunnel.pid) 2>$CLI_LOG || true
+    kill $(cat $PID_DIR/server.pid) 2>$CLI_LOG || true
 
     rm -rf "$PID_DIR" || true
 
