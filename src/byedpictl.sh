@@ -24,16 +24,13 @@ cmd_tun () {
     case $1 in
         start)
             start_tunneling
-            echo "Successfully started the full traffic tunneling"
             ;;
         stop)
             stop_tunneling
-            echo "Successfully stopped the tunneling"
             ;;
         restart)
             stop_tunneling
             start_tunneling
-            echo "Tunnel successfully restarted"
             ;;
         status)
             show_tunneling_status
@@ -80,9 +77,16 @@ start_tunneling() {
     ip rule add uidrange $user_id-$user_id lookup 110 pref 28000
     ip route add default via $gateway_addr dev $nic_name metric 50 table 110
     ip route add default via 172.20.0.1 dev byedpi-tun metric 1
+
+    echo "Successfully started the full traffic tunneling"
 }
 
 stop_tunneling () {
+    if [[ ! -d $PID_DIR ]]; then
+        echo "Tunnel is not running"
+        exit 1
+    fi
+
     user_id=$(id -u byedpi)
     nic_name=$(ip route show to default | awk '$5 != "byedpi-tun" {print $5; exit}')
     gateway_addr=$(ip route show to default | awk '$5 != "byedpi-tun" {print $3; exit}')
@@ -91,14 +95,16 @@ stop_tunneling () {
     # as this may lead to a lot of unexpected behavior. There should be at
     # least some "is command even available" checks here.
 
-    ip rule del uidrange $user_id-$user_id lookup 110 pref 28000 || true
-    ip route del default via "$gateway_addr" dev "$nic_name" metric 50 table 110 || true
-    ip route del default via 172.20.0.1 dev byedpi-tun metric 1 || true
+    ip rule del uidrange $user_id-$user_id lookup 110 pref 28000 2>/dev/null || true
+    ip route del default via "$gateway_addr" dev "$nic_name" metric 50 table 110 2>/dev/null || true
+    ip route del default via 172.20.0.1 dev byedpi-tun metric 1 2>/dev/null || true
 
-    kill $(cat $PID_DIR/tunnel.pid) || true
-    kill $(cat $PID_DIR/server.pid) || true
+    kill $(cat $PID_DIR/tunnel.pid) 2>/dev/null || true
+    kill $(cat $PID_DIR/server.pid) 2>/dev/null || true
 
     rm -rf "$PID_DIR" || true
+
+    echo "Successfully stopped the tunneling"
 }
 
 show_tunneling_status () {

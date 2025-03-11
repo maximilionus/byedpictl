@@ -48,23 +48,20 @@ Control the background tunneling.
 
 
 ## Configuration
-DPI desync (bypass) parameters can be modified by altering the contents of
-`/etc/byedpictl/desync.conf` file
+DPI desync (bypass) approaches can be modified by altering the contents of
+`/etc/byedpictl/desync.conf` file.
 
 
 ## Debugging
-Logs are available in `/var/log/byedpictl`
+Logs are available in `/var/log/byedpictl` directory.
 
 
 ## Possible issues
-### Random errors on execution
-`RTNETLINK answers: File exists` or any other similar messages on execution
-shall be ignored. The project is in a very early state of development, so
-there's a lot of "garbage" output.
 
 ### Tunnel after suspend
-Tunneling **will** break after waking your PC from suspend (sleep) state. To
-restore the functionality you should run the command below:
+Tunneling **will** break after waking machine from suspend (sleep) state. To
+restore the functionality you should restart the tunnel with the command below:
+
 ```sh
 $ byedpictl tun restart
 ```
