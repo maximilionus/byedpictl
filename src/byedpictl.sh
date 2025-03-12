@@ -53,8 +53,14 @@ load_conf () {
 }
 
 start_tunneling() {
+    if [[ -f $PID_DIR/tunnel.pid ]]; then
+        echo "Tunnel is already running"
+        exit 1
+    fi
+
     prepare_dirs
     load_conf
+
 
     ciadpi_args="--ip $CIADPI_IP --port $CIADPI_PORT ${CIADPI_DESYNC[@]}"
 
@@ -84,7 +90,7 @@ start_tunneling() {
 }
 
 stop_tunneling () {
-    if [[ ! -d $PID_DIR ]]; then
+    if [[ ! -f $PID_DIR/tunnel.pid ]]; then
         echo "Tunnel is not running"
         exit 1
     fi
