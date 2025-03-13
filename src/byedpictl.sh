@@ -1,10 +1,11 @@
 #!/bin/bash
 set -e
 
+NAME="byedpictl"
 BIN_DIR="/usr/local/bin"
-CONF_DIR="/etc/byedpictl"
-LOG_DIR="/var/log/byedpictl"
-PID_DIR="/var/run/byedpictl"
+CONF_DIR="/etc/$NAME"
+LOG_DIR="/var/log/$NAME"
+PID_DIR="/var/run/$NAME"
 
 CLI_LOG="$LOG_DIR/cli.log"
 
@@ -17,6 +18,8 @@ COMMANDS:
     tun <start|stop|restart|status>
         Control and monitor the background routing to tunnel all traffic
         through the byedpi proxy.
+    zenity
+        Start in GUI mode.
     help
         Show this message and exit.
 EOF
@@ -40,6 +43,26 @@ cmd_tun () {
         *)
             echo "Invalid argument!"
     esac
+}
+
+cmd_zenity () {
+    cmd=$(
+        zenity --list --title="$NAME" --hide-header --column="0" \
+        "Tunnel - Start" "Tunnel - Stop"
+    )
+
+    reply=""
+    case $cmd in
+        "Tunnel - Start")
+            reply=$(pkexec "$0" tun start) || true
+            ;;
+        "Tunnel - Stop")
+            reply=$(pkexec "$0" tun stop) || true
+            ;;
+    esac
+
+    zenity --notification --title "$NAME" \
+        --text="$reply"
 }
 
 prepare_dirs () {
@@ -132,7 +155,7 @@ show_tunneling_status () {
     fi
 
     cat <<EOF
-byedpictl background tunneling services
+$NAME background tunneling services
 
 server: $server_status
 tunnel: $tun_status
@@ -145,6 +168,9 @@ case $1 in
         ;;
     tun)
         cmd_tun $2
+        ;;
+    zenity)
+        cmd_zenity
         ;;
     *)
         echo "Invalid argument $1"
