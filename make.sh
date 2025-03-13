@@ -1,12 +1,13 @@
 #!/bin/bash
 set -e
 
-current_user=$(eval echo ~$(logname))
+current_user=${SUDO_USER:-$(logname)}
+current_home=$(eval echo ~$current_user)
 
 SRC_DIR="src"
 CONF_DIR="/etc/byedpictl"
 BIN_DIR="/usr/local/bin"
-XDGAPP_DIR="$current_user/.local/share/applications/"
+XDGAPP_DIR="$current_home/.local/share/applications/"
 
 C_RESET="\e[0m"
 C_BOLD="\e[1m"
@@ -64,6 +65,7 @@ cmd_install () {
 
     printf "${C_BOLD}- Installing the desktop integrations${C_RESET}\n"
     cp "$SRC_DIR/byedpictl.desktop" "$XDGAPP_DIR"
+    chown "$current_user":"$current_user" "$XDGAPP_DIR/byedpictl.desktop"
 
     printf "${C_GREEN}Installation complete${C_RESET}\n"
     cat <<EOF
