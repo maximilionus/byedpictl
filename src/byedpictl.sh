@@ -48,7 +48,7 @@ cmd_tun () {
 cmd_zenity () {
     cmd=$(
         zenity --list --title="$NAME" --hide-header --column="0" \
-        "Tunnel - Start" "Tunnel - Stop"
+        "Tunnel - Start" "Tunnel - Stop" "Tunnel - Restart"
     )
 
     reply=""
@@ -59,10 +59,13 @@ cmd_zenity () {
         "Tunnel - Stop")
             reply=$(pkexec "$0" tun stop) || true
             ;;
+        "Tunnel - Restart")
+            reply=$(pkexec "$0" tun restart) || true
+            ;;
     esac
 
     zenity --notification --title "$NAME" \
-        --text="$reply"
+        --text="$NAME\n$reply"
 }
 
 prepare_dirs () {
