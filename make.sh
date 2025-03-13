@@ -1,9 +1,12 @@
 #!/bin/bash
 set -e
 
+current_user=$(eval echo ~$(logname))
+
 SRC_DIR="src"
 CONF_DIR="/etc/byedpictl"
 BIN_DIR="/usr/local/bin"
+XDGAPP_DIR="$current_user/.local/share/applications/"
 
 C_RESET="\e[0m"
 C_BOLD="\e[1m"
@@ -59,6 +62,8 @@ cmd_install () {
     cp "$SRC_DIR/desync.conf" "$CONF_DIR"
     cp "$SRC_DIR/byedpictl.sh" "$BIN_DIR/byedpictl"
 
+    printf "${C_BOLD}- Installing the desktop integrations${C_RESET}\n"
+    cp "$SRC_DIR/byedpictl.desktop" "$XDGAPP_DIR"
 
     printf "${C_GREEN}Installation complete${C_RESET}\n"
     cat <<EOF
@@ -77,6 +82,7 @@ cmd_remove () {
     rm -f "$BIN_DIR/byedpictl"
     rm -f "$BIN_DIR/ciadpi"
     rm -f "$BIN_DIR/hev-socks5-tunnel"
+    rm -f "$XDGAPP_DIR/byedpictl.desktop"
     id -u byedpi &>/dev/null && userdel byedpi
 
     printf "${C_GREEN}Done${C_RESET}\n"
