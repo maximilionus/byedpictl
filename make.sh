@@ -1,9 +1,12 @@
 #!/bin/bash
 set -e
 
-SRC_DIR="src"
-CONF_DIR="/etc/byedpictl"
-BIN_DIR="/usr/local/bin"
+SRC="src"
+SRC_CONF="conf"
+SRC_XDG="xdg"
+
+CONF="/etc/byedpictl"
+BIN="/usr/local/bin"
 
 C_RESET="\e[0m"
 C_BOLD="\e[1m"
@@ -35,7 +38,7 @@ cmd_install () {
 
     printf "${C_BOLD}Setting up${C_RESET}\n"
     target_arch=$( uname -m )
-    mkdir -p "$CONF_DIR"
+    mkdir -p "$CONF"
     id -u byedpi &>/dev/null || useradd -r -s /bin/false byedpi
 
     printf "${C_BOLD}- Downloading and preparing the dependencies${C_RESET}\n"
@@ -44,23 +47,21 @@ cmd_install () {
         "https://github.com/hufrea/byedpi/releases/download/v0.16.6/byedpi-16.6-$target_arch.tar.gz"
     cd "$tmp_dir"
     tar -zxf "ciadpi.tar.gz"
-    find -type f -name "ciadpi-*" -exec mv -f {} $BIN_DIR/ciadpi \;
+    find -type f -name "ciadpi-*" -exec mv -f {} $BIN/ciadpi \;
     cd "$OLDPWD"
-    chmod +x "$BIN_DIR/ciadpi"
+    chmod +x "$BIN/ciadpi"
 
     printf -- "- Tunnel\n"
-    curl -L --progress-bar -o "$BIN_DIR/hev-socks5-tunnel" \
+    curl -L --progress-bar -o "$BIN/hev-socks5-tunnel" \
         "https://github.com/heiher/hev-socks5-tunnel/releases/download/2.9.1/hev-socks5-tunnel-linux-$target_arch"
-    chmod +x "$BIN_DIR/hev-socks5-tunnel"
+    chmod +x "$BIN/hev-socks5-tunnel"
 
     printf "${C_BOLD}- Installing the main components${C_RESET}\n"
-    cp "$SRC_DIR/hev-socks5-tunnel.yaml" "$CONF_DIR"
-    cp "$SRC_DIR/server.conf" "$CONF_DIR"
-    cp "$SRC_DIR/desync.conf" "$CONF_DIR"
-    cp "$SRC_DIR/byedpictl.sh" "$BIN_DIR/byedpictl"
+    cp "$SRC/byedpictl.sh" "$BIN/byedpictl"
+    cp -r "$SRC_CONF"/* "$CONF"
 
     printf "${C_BOLD}- Installing the desktop integrations${C_RESET}\n"
-    xdg-desktop-menu install --novendor "$SRC_DIR/byedpictl.desktop"
+    xdg-desktop-menu install --novendor "$SRC_XDG/byedpictl.desktop"
 
     printf "${C_GREEN}Installation complete${C_RESET}\n"
     cat <<EOF
@@ -69,18 +70,18 @@ Get basic usage information by executing
   $ byedpictl help
 
 DPI desync parameters can be changed here
-  $CONF_DIR/desync.conf
+  $CONF/desync.conf
 EOF
 }
 
 cmd_remove () {
     printf "${C_BOLD}Removal${C_RESET} "
-    rm -rf "$CONF_DIR"
-    rm -f "$BIN_DIR/byedpictl"
-    rm -f "$BIN_DIR/ciadpi"
-    rm -f "$BIN_DIR/hev-socks5-tunnel"
+    rm -rf "$CONF"
+    rm -f "$BIN/byedpictl"
+    rm -f "$BIN/ciadpi"
+    rm -f "$BIN/hev-socks5-tunnel"
     id -u byedpi &>/dev/null && userdel byedpi
-    xdg-desktop-menu uninstall --novendor "$SRC_DIR/byedpictl.desktop"
+    xdg-desktop-menu uninstall --novendor "$SRC/byedpictl.desktop"
 
     printf "${C_GREEN}Done${C_RESET}\n"
 }
