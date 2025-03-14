@@ -4,5 +4,6 @@ Name=byedpictl
 Comment=Experimental utility for user-friendly DPI desync on Linux
 Path=/usr/local/bin
 Exec=byedpictl zenity
-#Icon=jmemorize
+Icon=byedpictl
+Categories=Utility;Network;
 Terminal=false

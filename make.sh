@@ -4,6 +4,8 @@ set -e
 SRC="src"
 SRC_CONF="conf"
 SRC_XDG="xdg"
+SRC_IMG="img"
+SRC_ICON="$SRC_IMG/icon"
 
 CONF="/etc/byedpictl"
 BIN="/usr/local/bin"
@@ -62,6 +64,7 @@ cmd_install () {
 
     printf "${C_BOLD}- Installing the desktop integrations${C_RESET}\n"
     xdg-desktop-menu install --novendor "$SRC_XDG/byedpictl.desktop"
+    xdg-icon-resource install --novendor --size 128 "$SRC_ICON/128/byedpictl.png"
 
     printf "${C_GREEN}Installation complete${C_RESET}\n"
     cat <<EOF
@@ -81,7 +84,8 @@ cmd_remove () {
     rm -f "$BIN/ciadpi"
     rm -f "$BIN/hev-socks5-tunnel"
     id -u byedpi &>/dev/null && userdel byedpi
-    xdg-desktop-menu uninstall --novendor "$SRC/byedpictl.desktop"
+    xdg-desktop-menu uninstall "$SRC/byedpictl.desktop"
+    xdg-icon-resource uninstall --size 128 "$SRC_ICON/128/byedpictl.png"
 
     printf "${C_GREEN}Done${C_RESET}\n"
 }
