@@ -3,8 +3,8 @@ Experimental utility for user-friendly DPI desync on Linux
 
 
 ## Install
-1. Download the [latest
-   archive](https://github.com/maximilionus/byedpictl/archive/refs/heads/master.zip)
+1. Download the
+   [latest archive](https://github.com/maximilionus/byedpictl/archive/refs/heads/master.zip)
    and unpack it.
 2. In the unpacked directory run:
    ```sh
@@ -23,13 +23,13 @@ Experimental utility for user-friendly DPI desync on Linux
 2. Follow the "Install" section above with new version.
 
 ## Usage
-### General
+### Command Line
 Get all the available information about utility commands usage with:
 ```sh
 $ byedpictl help
 ```
 
-### Tunneling
+#### Tunneling
 Control the background tunneling.
 
 - Start and stop the tunneling with:
@@ -45,6 +45,13 @@ Control the background tunneling.
   ```sh
   $ byedpictl tun status
   ```
+
+
+### Graphical Interface
+This project also supports a GUI mode (based on Zenity) for some basic
+interactions, like starting/stopping the tunneling and so on. A desktop entry
+will be created on initial project installation and can be accessed on any
+XDG-compliant desktop environment to start the graphical menu.
 
 
 ## Configuration
