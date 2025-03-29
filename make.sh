@@ -62,7 +62,7 @@ cmd_install () {
     cp "$SRC/byedpictl.sh" "$BIN/byedpictl"
     cp -r "$SRC_CONF"/* "$CONF"
 
-    printf "${C_BOLD}- Installing the desktop integrations${C_RESET}\n"
+    printf "${C_BOLD}- Installing the desktop integration${C_RESET}\n"
     xdg-desktop-menu install --novendor "$SRC_XDG/byedpictl.desktop"
     xdg-icon-resource install --novendor --size 128 "$SRC_ICON/128/byedpictl.png"
 
