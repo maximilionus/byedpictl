@@ -1,5 +1,13 @@
 # byedpictl
-Experimental utility for user-friendly DPI desync on Linux
+Experimental utility for user-friendly DPI desync on Linux. Supports both
+command-line and graphical interfaces.
+
+Uses [byedpi](https://github.com/hufrea/byedpi) for processing and
+[hev-socks5-tunnel](https://github.com/heiher/hev-socks5-tunnel) for network
+tunneling.
+
+Still in the progress of early development, so there are no stable releases
+yet.
 
 
 ## Install
@@ -52,6 +60,9 @@ This project also supports a GUI mode (based on Zenity) for some basic
 interactions, like starting/stopping the tunneling and so on. A desktop entry
 will be created on initial project installation and can be accessed on any
 XDG-compliant desktop environment to start the graphical menu.
+
+To run the graphical interface on the target system, `zenity` must be
+installed. Most distributions provide it out of the box.
 
 
 ## Configuration
