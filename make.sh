@@ -46,7 +46,7 @@ cmd_install () {
     printf "${C_BOLD}- Downloading and preparing the dependencies${C_RESET}\n"
     printf -- "- Server\n"
     curl -L --progress-bar -o "$tmp_dir/ciadpi.tar.gz" \
-        "https://github.com/hufrea/byedpi/releases/download/v0.16.6/byedpi-16.6-$target_arch.tar.gz"
+        "https://github.com/hufrea/byedpi/releases/download/v0.17/byedpi-17-$target_arch.tar.gz"
     cd "$tmp_dir"
     tar -zxf "ciadpi.tar.gz"
     find -type f -name "ciadpi-*" -exec mv -f {} $BIN/ciadpi \;
