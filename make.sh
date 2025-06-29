@@ -46,7 +46,7 @@ cmd_install () {
     printf "${C_BOLD}- Downloading and preparing the dependencies${C_RESET}\n"
     printf -- "- Server\n"
     curl -L --progress-bar -o "$tmp_dir/ciadpi.tar.gz" \
-        "https://github.com/hufrea/byedpi/releases/download/v0.17/byedpi-17-$target_arch.tar.gz"
+        "https://github.com/hufrea/byedpi/releases/download/v0.17.1/byedpi-17.1-$target_arch.tar.gz"
     cd "$tmp_dir"
     tar -zxf "ciadpi.tar.gz"
     find -type f -name "ciadpi-*" -exec mv -f {} $BIN/ciadpi \;
@@ -55,7 +55,7 @@ cmd_install () {
 
     printf -- "- Tunnel\n"
     curl -L --progress-bar -o "$BIN/hev-socks5-tunnel" \
-        "https://github.com/heiher/hev-socks5-tunnel/releases/download/2.10.0/hev-socks5-tunnel-linux-$target_arch"
+        "https://github.com/heiher/hev-socks5-tunnel/releases/download/2.11.0/hev-socks5-tunnel-linux-$target_arch"
     chmod +x "$BIN/hev-socks5-tunnel"
 
     printf "${C_BOLD}- Installing the main components${C_RESET}\n"
