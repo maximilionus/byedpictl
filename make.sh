@@ -2,10 +2,11 @@
 set -e
 
 SRC="src"
-SRC_CONF="conf"
-SRC_XDG="xdg"
-SRC_IMG="img"
-SRC_ICON="$SRC_IMG/icon"
+SRC_CONF="$SRC/conf"
+SRC_BIN="$SRC/bin"
+SRC_XDG="$SRC/xdg"
+SRC_IMG="$SRC/img"
+SRC_ICON="$SRC_IMG/icons"
 
 CONF="/etc/byedpictl"
 BIN="/usr/local/bin"
@@ -59,7 +60,7 @@ cmd_install () {
     chmod +x "$BIN/hev-socks5-tunnel"
 
     printf "${C_BOLD}- Installing the main components${C_RESET}\n"
-    cp "$SRC/byedpictl.sh" "$BIN/byedpictl"
+    cp "$SRC_BIN/byedpictl.sh" "$BIN/byedpictl"
     cp -r "$SRC_CONF"/* "$CONF"
 
     printf "${C_BOLD}- Installing the desktop integration${C_RESET}\n"
