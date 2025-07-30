@@ -56,7 +56,7 @@ cmd_install () {
 
     printf -- "- Tunnel\n"
     curl -L --progress-bar -o "$BIN/hev-socks5-tunnel" \
-        "https://github.com/heiher/hev-socks5-tunnel/releases/download/2.11.0/hev-socks5-tunnel-linux-$target_arch"
+        "https://github.com/heiher/hev-socks5-tunnel/releases/download/2.12.0/hev-socks5-tunnel-linux-$target_arch"
     chmod +x "$BIN/hev-socks5-tunnel"
 
     printf "${C_BOLD}- Installing the main components${C_RESET}\n"
@@ -93,7 +93,7 @@ cmd_remove () {
 
 
 [[ $( id -u ) != 0 ]] && \
-    printf "${C_RED}Root required!${C_RESET}\n" && exit 1
+    printf "${C_RED}Superuser required!${C_RESET}\n" && exit 1
 
 case $1 in
     help)
