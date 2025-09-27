@@ -21,13 +21,16 @@ cmd_help () {
     cat <<EOF
 $0
 
-COMMANDS:
-    install
-        Deploy the project files and dependencies.
-    remove
-        Uninstall the project.
-    help
-        Show this message and exit.
+COMMANDS
+
+install
+    Deploy the project files and dependencies.
+
+remove
+    Uninstall the project.
+
+help
+    Show this message and exit.
 EOF
 }
 
@@ -47,7 +50,7 @@ cmd_install () {
     printf "${C_BOLD}- Downloading and preparing the dependencies${C_RESET}\n"
     printf -- "- Server\n"
     curl -L --progress-bar -o "$tmp_dir/ciadpi.tar.gz" \
-        "https://github.com/hufrea/byedpi/releases/download/v0.17.2/byedpi-17.2-$target_arch.tar.gz"
+        "https://github.com/hufrea/byedpi/releases/download/v0.17.3/byedpi-17.3-$target_arch.tar.gz"
     cd "$tmp_dir"
     tar -zxf "ciadpi.tar.gz"
     find -type f -name "ciadpi-*" -exec mv -f {} $BIN/ciadpi \;
