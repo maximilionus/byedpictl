@@ -166,7 +166,7 @@ EOF
 }
 
 case $1 in
-    help)
+    help|"")
         cmd_help
         ;;
     tun)
