@@ -15,15 +15,21 @@ Download the
 [latest archive](https://github.com/maximilionus/byedpictl/archive/refs/heads/master.zip)
 and unpack it.
 
-Use the script in the unpacked directory to install the project:
+Then use the script in the unpacked directory to install the project:
 
 ```sh
 $ sudo ./make.sh install
 ```
 
 ## Update
-Use the same `make.sh` script to update the project, leaving the configuration
-intact:
+The very same `make.sh` script can be used to update the project, leaving the
+already existing configuration intact.
+
+First you need to get a
+[latest archive](https://github.com/maximilionus/byedpictl/archive/refs/heads/master.zip)
+and unpack it.
+
+Then use the script in the unpacked directory to safely update the project:
 
 ```sh
 $ sudo ./make.sh update
