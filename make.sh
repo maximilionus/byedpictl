@@ -66,18 +66,14 @@ cmd_help () {
 $0
 
 COMMANDS
-
-install
-    Install this project and download it's dependencies.
-
-update
-    Update this project, leaving the configuration intact.
-
-remove
-    Uninstall this project.
-
-help
-    Show this message and exit.
+    install
+        Install this project and download it's dependencies.
+    update
+        Update this project, leaving the configuration intact.
+    remove
+        Uninstall this project.
+    help
+        Show this message and exit.
 EOF
 }
 
