@@ -11,26 +11,30 @@ yet.
 
 
 ## Install
-1. Download the
-   [latest archive](https://github.com/maximilionus/byedpictl/archive/refs/heads/master.zip)
-   and unpack it.
-2. In the unpacked directory run:
-   ```sh
-   $ sudo ./make.sh install
-   ```
+Download the
+[latest archive](https://github.com/maximilionus/byedpictl/archive/refs/heads/master.zip)
+and unpack it.
+
+Use the script in the unpacked directory to install the project:
+
+```sh
+$ sudo ./make.sh install
+```
 
 ## Update
-1. Use the same `make.sh` script to update the project, leaving the
-   configuration intact:
-   ```sh
-   $ sudo ./make.sh update
-   ```
+Use the same `make.sh` script to update the project, leaving the configuration
+intact:
+
+```sh
+$ sudo ./make.sh update
+```
 
 ## Remove
-1. Use the same `make.sh` script to remove the project:
-   ```sh
-   $ sudo ./make.sh remove
-   ```
+Use the same `make.sh` script to remove the project:
+
+```sh
+$ sudo ./make.sh remove
+```
 
 ## Usage
 ### Command Line
