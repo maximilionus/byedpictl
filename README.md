@@ -26,9 +26,11 @@ yet.
    ```
 
 ## Update
-1. Be sure to uninstall the project using the same `make.sh` script that was
-   used for initial installation.
-2. Follow the "Install" section above with new version.
+1. Use the same `make.sh` script to update the project, leaving the
+   configuration intact:
+   ```sh
+   $ sudo ./make.sh remove
+   ```
 
 ## Usage
 ### Command Line
