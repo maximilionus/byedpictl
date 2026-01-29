@@ -16,6 +16,49 @@ C_BOLD="\e[1m"
 C_GREEN="\e[0;32m"
 C_RED="\e[0;31m"
 
+download_dependencies () {
+    local target_arch=$(uname -m)
+    local tmp_dir=$(mktemp -d)
+
+    if [[ ! -d $tmp_dir ]]; then
+        printf "${C_RED}Failed to initialize temporary directory.${C_RESET}\n"
+        exit 1
+    fi
+    trap 'rm -rf -- "$tmp_dir"' EXIT
+
+    printf "${C_BOLD}- Downloading and preparing the dependencies${C_RESET}\n"
+    printf -- "- Server\n"
+    curl -L --progress-bar -o "$tmp_dir/ciadpi.tar.gz" \
+        "https://github.com/hufrea/byedpi/releases/download/v0.17.3/byedpi-17.3-$target_arch.tar.gz"
+    cd "$tmp_dir"
+    tar -zxf "ciadpi.tar.gz"
+    #find -type f -name "ciadpi-*" -exec mv -f {} $BIN/ciadpi \;
+    mv ciadpi-* "$BIN/ciadpi"
+    chmod +x "$BIN/ciadpi"
+    cd "$OLDPWD"
+
+    printf -- "- Tunnel\n"
+    curl -L --progress-bar -o "$BIN/hev-socks5-tunnel" \
+        "https://github.com/heiher/hev-socks5-tunnel/releases/download/2.14.3/hev-socks5-tunnel-linux-$target_arch"
+    chmod +x "$BIN/hev-socks5-tunnel"
+}
+
+deploy_ctl () {
+    printf "${C_BOLD}- Installing the control tool${C_RESET}\n"
+    cp "$SRC_BIN/byedpictl.sh" "$BIN/byedpictl"
+}
+
+deploy_conf () {
+    printf "${C_BOLD}- Installing the default configuration${C_RESET}\n"
+    mkdir -p "$CONF"
+    cp -r -n "$SRC_CONF"/* "$CONF"
+}
+
+deploy_xdg () {
+    printf "${C_BOLD}- Installing the desktop integration${C_RESET}\n"
+    xdg-desktop-menu install --novendor "$SRC_XDG/byedpictl.desktop"
+    xdg-icon-resource install --novendor --size 128 "$SRC_ICON/128/byedpictl.png"
+}
 
 cmd_help () {
     cat <<EOF
@@ -24,10 +67,13 @@ $0
 COMMANDS
 
 install
-    Deploy the project files and dependencies.
+    Install this project and download it's dependencies.
+
+update
+    Update this project, leaving the configuration intact.
 
 remove
-    Uninstall the project.
+    Uninstall this project.
 
 help
     Show this message and exit.
@@ -35,40 +81,13 @@ EOF
 }
 
 cmd_install () {
-    tmp_dir=$( mktemp -d )
-    if [[ ! -d $tmp_dir ]]; then
-        printf "${C_RED}Failed to initialize temporary directory.${C_RESET}\n"
-        exit 1
-    fi
-    trap 'rm -rf -- "$tmp_dir"' EXIT
-
     printf "${C_BOLD}Setting up${C_RESET}\n"
-    target_arch=$( uname -m )
-    mkdir -p "$CONF"
     id -u byedpi &>/dev/null || useradd -r -s /bin/false byedpi
 
-    printf "${C_BOLD}- Downloading and preparing the dependencies${C_RESET}\n"
-    printf -- "- Server\n"
-    curl -L --progress-bar -o "$tmp_dir/ciadpi.tar.gz" \
-        "https://github.com/hufrea/byedpi/releases/download/v0.17.3/byedpi-17.3-$target_arch.tar.gz"
-    cd "$tmp_dir"
-    tar -zxf "ciadpi.tar.gz"
-    find -type f -name "ciadpi-*" -exec mv -f {} $BIN/ciadpi \;
-    cd "$OLDPWD"
-    chmod +x "$BIN/ciadpi"
-
-    printf -- "- Tunnel\n"
-    curl -L --progress-bar -o "$BIN/hev-socks5-tunnel" \
-        "https://github.com/heiher/hev-socks5-tunnel/releases/download/2.14.3/hev-socks5-tunnel-linux-$target_arch"
-    chmod +x "$BIN/hev-socks5-tunnel"
-
-    printf "${C_BOLD}- Installing the main components${C_RESET}\n"
-    cp "$SRC_BIN/byedpictl.sh" "$BIN/byedpictl"
-    cp -r "$SRC_CONF"/* "$CONF"
-
-    printf "${C_BOLD}- Installing the desktop integration${C_RESET}\n"
-    xdg-desktop-menu install --novendor "$SRC_XDG/byedpictl.desktop"
-    xdg-icon-resource install --novendor --size 128 "$SRC_ICON/128/byedpictl.png"
+    download_dependencies
+    deploy_ctl
+    deploy_conf
+    deploy_xdg
 
     printf "${C_GREEN}Installation complete${C_RESET}\n"
     cat <<EOF
@@ -79,6 +98,15 @@ Get basic usage information by executing
 DPI desync parameters can be changed here
   $CONF/desync.conf
 EOF
+}
+
+cmd_update () {
+    printf "${C_BOLD}Updating main components${C_RESET}\n"
+    download_dependencies
+    deploy_ctl
+    deploy_xdg
+
+    printf "${C_GREEN}Update complete${C_RESET}\nConfiguration is left intact.\n"
 }
 
 cmd_remove () {
@@ -104,6 +132,9 @@ case $1 in
         ;;
     install)
         cmd_install
+        ;;
+    update)
+        cmd_update
         ;;
     remove)
         cmd_remove
