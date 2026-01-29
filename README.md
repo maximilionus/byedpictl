@@ -19,15 +19,15 @@ yet.
    $ sudo ./make.sh install
    ```
 
-## Remove
-1. Use the same `make.sh` script to remove the project:
-   ```sh
-   $ sudo ./make.sh remove
-   ```
-
 ## Update
 1. Use the same `make.sh` script to update the project, leaving the
    configuration intact:
+   ```sh
+   $ sudo ./make.sh update
+   ```
+
+## Remove
+1. Use the same `make.sh` script to remove the project:
    ```sh
    $ sudo ./make.sh remove
    ```
