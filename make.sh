@@ -18,6 +18,8 @@ C_RED="\e[0;31m"
 
 download_dependencies () {
     local target_arch=$(uname -m)
+    local tunnel_url="https://github.com/heiher/hev-socks5-tunnel/releases/download/2.14.3/hev-socks5-tunnel-linux-$target_arch"
+    local server_url="https://github.com/hufrea/byedpi/releases/download/v0.17.3/byedpi-17.3-$target_arch.tar.gz"
     local tmp_dir=$(mktemp -d)
 
     if [[ ! -d $tmp_dir ]]; then
@@ -28,8 +30,7 @@ download_dependencies () {
 
     printf "${C_BOLD}- Downloading and preparing the dependencies${C_RESET}\n"
     printf -- "- Server\n"
-    curl -L --progress-bar -o "$tmp_dir/ciadpi.tar.gz" \
-        "https://github.com/hufrea/byedpi/releases/download/v0.17.3/byedpi-17.3-$target_arch.tar.gz"
+    curl -L --progress-bar -o "$tmp_dir/ciadpi.tar.gz" "$server_url"
     cd "$tmp_dir"
     tar -zxf "ciadpi.tar.gz"
     #find -type f -name "ciadpi-*" -exec mv -f {} $BIN/ciadpi \;
@@ -38,8 +39,7 @@ download_dependencies () {
     cd "$OLDPWD"
 
     printf -- "- Tunnel\n"
-    curl -L --progress-bar -o "$BIN/hev-socks5-tunnel" \
-        "https://github.com/heiher/hev-socks5-tunnel/releases/download/2.14.3/hev-socks5-tunnel-linux-$target_arch"
+    curl -L --progress-bar -o "$BIN/hev-socks5-tunnel" "$tunnel_url"
     chmod +x "$BIN/hev-socks5-tunnel"
 }
 
@@ -51,11 +51,12 @@ deploy_ctl () {
 deploy_conf () {
     printf "${C_BOLD}- Installing the default configuration${C_RESET}\n"
     mkdir -p "$CONF"
-    cp -r -n "$SRC_CONF"/* "$CONF"
+    cp -r "$SRC_CONF"/* "$CONF"
 }
 
 deploy_xdg () {
     printf "${C_BOLD}- Installing the desktop integration${C_RESET}\n"
+    mkdir -p /usr/share/desktop-directories # Fix xdg-utils dir discovery fail
     xdg-desktop-menu install --novendor "$SRC_XDG/byedpictl.desktop"
     xdg-icon-resource install --novendor --size 128 "$SRC_ICON/128/byedpictl.png"
 }
@@ -89,14 +90,17 @@ cmd_install () {
     deploy_conf
     deploy_xdg
 
-    printf "${C_GREEN}Installation complete${C_RESET}\n"
+    printf "\n${C_GREEN}Installation complete.${C_RESET}\n"
     cat <<EOF
 
 Get basic usage information by executing
-  $ byedpictl help
+    $ byedpictl help
 
-DPI desync parameters can be changed here
-  $CONF/desync.conf
+Update to the latest version without overwriting the configuration with
+    $ $0 update
+
+DPI desync parameters can be modified here
+    $CONF/desync.conf
 EOF
 }
 
@@ -106,7 +110,7 @@ cmd_update () {
     deploy_ctl
     deploy_xdg
 
-    printf "${C_GREEN}Update complete${C_RESET}\nConfiguration is left intact.\n"
+    printf "\n${C_GREEN}Update complete.${C_RESET}\nConfiguration is left intact.\n"
 }
 
 cmd_remove () {
@@ -119,7 +123,7 @@ cmd_remove () {
     xdg-desktop-menu uninstall "$SRC_XDG/byedpictl.desktop"
     xdg-icon-resource uninstall --size 128 "$SRC_ICON/128/byedpictl.png"
 
-    printf "${C_GREEN}Done${C_RESET}\n"
+    printf "\n${C_GREEN}Removal complete.${C_RESET}\n"
 }
 
 
@@ -140,7 +144,7 @@ case $1 in
         cmd_remove
         ;;
     *)
-        printf "${C_RED}Invalid argument${C_RESET} $1\n"
-        printf "Use ${C_BOLD}help${C_RESET} command\n"
+        printf "${C_RED}Invalid argument.${C_RESET} $1\n"
+        printf "Use ${C_BOLD}help${C_RESET} command.\n"
         exit 1
 esac
