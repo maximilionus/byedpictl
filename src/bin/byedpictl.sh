@@ -12,16 +12,23 @@ CLI_LOG="$LOG_DIR/cli.log"
 
 cmd_help () {
     cat <<EOF
-$0
+usage: $(basename "$0") <command>
 
-COMMANDS:
-    tun <start|stop|restart|status>
-        Control and monitor the background routing to tunnel all traffic
-        through the byedpi proxy.
-    zenity
-        Start in GUI mode.
-    help
-        Show this message and exit.
+COMMANDS
+tun <start|stop|restart|status>
+    Control and monitor the background tunnel.
+zenity
+    Start graphical mode.
+help
+    Show this message and exit.
+
+CONFIGURATION
+Desync options can be configured by modifying the:
+    $CONF_DIR/desync.conf
+
+LOGS
+Background services logs can be found on this path:
+    $LOG_DIR
 EOF
 }
 
@@ -90,10 +97,10 @@ start_tunneling() {
 
     ciadpi_args="--ip $CIADPI_IP --port $CIADPI_PORT ${CIADPI_DESYNC[@]}"
 
-    nohup su - byedpi -s /bin/bash -c "$BIN_DIR/ciadpi $ciadpi_args" \
-        > $LOG_DIR/server.log 2>&1 & echo $! > $PID_DIR/server.pid
-    nohup $BIN_DIR/hev-socks5-tunnel $CONF_DIR/hev-socks5-tunnel.yaml \
-        > $LOG_DIR/tunnel.log 2>&1 & echo $! > $PID_DIR/tunnel.pid
+    setsid su - byedpi -s /bin/bash -c "$BIN_DIR/ciadpi $ciadpi_args" \
+        > "$LOG_DIR/server.log" 2>&1 & echo $! > "$PID_DIR/server.pid"
+    setsid "$BIN_DIR/hev-socks5-tunnel" "$CONF_DIR/hev-socks5-tunnel.yaml" \
+        > "$LOG_DIR/tunnel.log" 2>&1 & echo $! > "$PID_DIR/tunnel.pid"
 
    while true; do
         sleep 0.2
