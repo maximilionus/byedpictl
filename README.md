@@ -25,7 +25,7 @@ $ sudo ./make.sh install
 The very same `make.sh` script can be used to update the project, leaving the
 already existing configuration intact.
 
-First you need to get a
+First, you need to get the
 [latest archive](https://github.com/maximilionus/byedpictl/archive/refs/heads/master.zip)
 and unpack it.
 
@@ -36,7 +36,7 @@ $ sudo ./make.sh update
 ```
 
 ## Remove
-Use the same `make.sh` script to remove the project:
+Use the `make.sh` script to remove the project:
 
 ```sh
 $ sudo ./make.sh remove
