@@ -18,7 +18,7 @@ C_RED="\e[0;31m"
 
 download_dependencies () {
     local target_arch=$(uname -m)
-    local tunnel_url="https://github.com/heiher/hev-socks5-tunnel/releases/download/2.14.3/hev-socks5-tunnel-linux-$target_arch"
+    local tunnel_url="https://github.com/heiher/hev-socks5-tunnel/releases/download/2.14.4/hev-socks5-tunnel-linux-$target_arch"
     local server_url="https://github.com/hufrea/byedpi/releases/download/v0.17.3/byedpi-17.3-$target_arch.tar.gz"
     local tmp_dir=$(mktemp -d)
 
@@ -33,7 +33,6 @@ download_dependencies () {
     curl -L --progress-bar -o "$tmp_dir/ciadpi.tar.gz" "$server_url"
     cd "$tmp_dir"
     tar -zxf "ciadpi.tar.gz"
-    #find -type f -name "ciadpi-*" -exec mv -f {} $BIN/ciadpi \;
     mv ciadpi-* "$BIN/ciadpi"
     chmod +x "$BIN/ciadpi"
     cd "$OLDPWD"
@@ -92,7 +91,7 @@ cmd_install () {
 Get basic usage information by executing
     $ byedpictl help
 
-Update to the latest version without overwriting the configuration with
+Update the runtime without overwriting the configuration with
     $ $0 update
 
 DPI desync parameters can be modified here
