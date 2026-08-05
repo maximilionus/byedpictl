@@ -18,7 +18,7 @@ C_RED="\e[0;31m"
 
 download_dependencies () {
     local target_arch=$(uname -m)
-    local tunnel_url="https://github.com/heiher/hev-socks5-tunnel/releases/download/2.14.4/hev-socks5-tunnel-linux-$target_arch"
+    local tunnel_url="https://github.com/heiher/hev-socks5-tunnel/releases/download/2.17.0/hev-socks5-tunnel-linux-$target_arch"
     local server_url="https://github.com/hufrea/byedpi/releases/download/v0.17.3/byedpi-17.3-$target_arch.tar.gz"
     local tmp_dir=$(mktemp -d)
 
